@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D0C2DDE209821BC0039E6AB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0C2DDD209821BC0039E6AB /* MainViewController.swift */; };
+		2D0C2DDE209821BC0039E6AB /* PeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0C2DDD209821BC0039E6AB /* PeopleViewController.swift */; };
 		2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFA92097ED410091328B /* AppDelegate.swift */; };
 		2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFAB2097ED410091328B /* ViewController.swift */; };
 		2D2EBFB42097ED410091328B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */; };
@@ -15,13 +15,15 @@
 		2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D409AAE2097F83400D8A070 /* LoginViewController.swift */; };
 		2D409AB32097F93700D8A070 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D409AB22097F93700D8A070 /* Main.storyboard */; };
 		2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */; };
+		2D9012CB20985AE300F8B6CF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9012CA20985AE300F8B6CF /* ChatViewController.swift */; };
 		2DB3634B2097EFA400380AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634A2097EFA400380AF9 /* Assets.xcassets */; };
 		2DB3634D2097F21600380AF9 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */; };
+		2DD9B877209832E80011A39E /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9B876209832E80011A39E /* UserModel.swift */; };
 		7B718CD3792FB3489855A9B9 /* Pods_swiftChatting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AE5323403A8251D0B6E613 /* Pods_swiftChatting.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2D0C2DDD209821BC0039E6AB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2D0C2DDD209821BC0039E6AB /* PeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewController.swift; sourceTree = "<group>"; };
 		2D2EBFA62097ED410091328B /* swiftChatting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftChatting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2EBFA92097ED410091328B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D2EBFAB2097ED410091328B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,8 +33,10 @@
 		2D409AAE2097F83400D8A070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2D409AB22097F93700D8A070 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		2D9012CA20985AE300F8B6CF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2DB3634A2097EFA400380AF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
+		2DD9B876209832E80011A39E /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		41A96E5C3CB024A4E620C92A /* Pods-swiftChatting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swiftChatting.release.xcconfig"; path = "Pods/Target Support Files/Pods-swiftChatting/Pods-swiftChatting.release.xcconfig"; sourceTree = "<group>"; };
 		454248F194AFE1DD38DCA9F8 /* Pods-swiftChatting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swiftChatting.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swiftChatting/Pods-swiftChatting.debug.xcconfig"; sourceTree = "<group>"; };
 		E2AE5323403A8251D0B6E613 /* Pods_swiftChatting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swiftChatting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,11 +79,13 @@
 				2D2EBFAB2097ED410091328B /* ViewController.swift */,
 				2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */,
 				2D409AAE2097F83400D8A070 /* LoginViewController.swift */,
+				2D9012CA20985AE300F8B6CF /* ChatViewController.swift */,
 				2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */,
 				2D409AB22097F93700D8A070 /* Main.storyboard */,
 				2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */,
 				2D2EBFB52097ED410091328B /* Info.plist */,
-				2D0C2DDD209821BC0039E6AB /* MainViewController.swift */,
+				2DD9B876209832E80011A39E /* UserModel.swift */,
+				2D0C2DDD209821BC0039E6AB /* PeopleViewController.swift */,
 				2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */,
 				2DB3634A2097EFA400380AF9 /* Assets.xcassets */,
 			);
@@ -232,8 +238,10 @@
 				2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */,
 				2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */,
 				2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */,
+				2D9012CB20985AE300F8B6CF /* ChatViewController.swift in Sources */,
 				2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */,
-				2D0C2DDE209821BC0039E6AB /* MainViewController.swift in Sources */,
+				2DD9B877209832E80011A39E /* UserModel.swift in Sources */,
+				2D0C2DDE209821BC0039E6AB /* PeopleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

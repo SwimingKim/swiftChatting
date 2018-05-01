@@ -27,12 +27,16 @@ class SignupViewController: UIViewController {
             let image = UIImageJPEGRepresentation(self.imageView.image!, 0.1)
             if let user = user {
                 let uid = user.uid
-                Storage.storage().reference().child("userImages").child(uid).putData(image!, metadata: nil, completion: { (data, error) in
+                Storage.storage().reference().child("userImages").child(uid).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
                     let imageUrl = data?.downloadURL()?.absoluteString
-                    Database.database().reference().child("users").child(uid).setValue(["name": self.name.text, "profileImageUrl": imageUrl])
+                    let values = ["userName": self.name.text!, "profileImageUrl": imageUrl]
+                    Database.database().reference().child("users").child(uid).setValue(values, withCompletionBlock: { (err, ref) in
+                        if err == nil {
+                            self.cancleEvent()
+                        }
+                    })
                 })
             }
-            
         }
     }
     

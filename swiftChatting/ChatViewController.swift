@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  ChatViewController.swift
 //  swiftChatting
 //
 //  Created by KimSuyoung on 2018. 5. 1..
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
