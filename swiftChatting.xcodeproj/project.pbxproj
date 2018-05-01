@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D0C2DDE209821BC0039E6AB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0C2DDD209821BC0039E6AB /* MainViewController.swift */; };
 		2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFA92097ED410091328B /* AppDelegate.swift */; };
 		2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFAB2097ED410091328B /* ViewController.swift */; };
 		2D2EBFB42097ED410091328B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D0C2DDD209821BC0039E6AB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2D2EBFA62097ED410091328B /* swiftChatting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftChatting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2EBFA92097ED410091328B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D2EBFAB2097ED410091328B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				2D409AB22097F93700D8A070 /* Main.storyboard */,
 				2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */,
 				2D2EBFB52097ED410091328B /* Info.plist */,
+				2D0C2DDD209821BC0039E6AB /* MainViewController.swift */,
 				2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */,
 				2DB3634A2097EFA400380AF9 /* Assets.xcassets */,
 			);
@@ -230,6 +233,7 @@
 				2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */,
 				2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */,
 				2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */,
+				2D0C2DDE209821BC0039E6AB /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +372,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -383,7 +390,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

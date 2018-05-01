@@ -12,6 +12,7 @@ import TextFieldEffects
 
 class SignupViewController: UIViewController {
     
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var email: HoshiTextField!
     @IBOutlet weak var name: HoshiTextField!
     @IBOutlet weak var password: HoshiTextField!
@@ -23,10 +24,13 @@ class SignupViewController: UIViewController {
     
     @objc func signupEvent() {
         Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, err) in
-            
+            let image = UIImageJPEGRepresentation(self.imageView.image!, 0.1)
             if let user = user {
-                Database.database().reference().child("users").child(user.uid)
-                    .setValue(["name":self.name.text!])
+                let uid = user.uid
+                Storage.storage().reference().child("userImages").child(uid).putData(image!, metadata: nil, completion: { (data, error) in
+                    let imageUrl = data?.downloadURL()?.absoluteString
+                    Database.database().reference().child("users").child(uid).setValue(["name": self.name.text, "profileImageUrl": imageUrl])
+                })
             }
             
         }
@@ -46,6 +50,10 @@ class SignupViewController: UIViewController {
             make.height.equalTo(20)
         }
         
+        imageView.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imagePicker))
+        imageView.addGestureRecognizer(gestureRecognizer)
+        
         color = remoteConfig["splash_background"].stringValue
         statusBar.backgroundColor = UIColor(hex: color)
         signup.backgroundColor = UIColor(hex: color)
@@ -60,15 +68,22 @@ class SignupViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+}
+
+extension SignupViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imageView.image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func imagePicker() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        
+        self.present(imagePicker, animated: true, completion: nil)
+    }
     
 }
