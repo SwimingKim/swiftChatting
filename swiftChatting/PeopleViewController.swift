@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import Firebase
+import FirebaseDatabase
 
 class PeopleViewController: UIViewController {
     
@@ -31,28 +31,21 @@ class PeopleViewController: UIViewController {
         Database.database().reference().child("users").observe(.value, with: {
             [unowned self] (snapshot) in
             self.array.removeAll()
-            
+
             for child in snapshot.children{
                 let fchild = child as! DataSnapshot
                 let userModel = UserModel()
-                
+
                 userModel.setValuesForKeys(fchild.value as! [String : Any])
                 self.array.append(userModel)
-                
+
             }
-            
+
             DispatchQueue.main.async {
                 self.tableView.reloadData();
             }
         })
-        
-        var first = UserModel()
-        first.userName = "hihi"
-        first.profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/swiftchatting-d8801.appspot.com/o/userImages%2FlbSXF4jxFnNzdd1ydmQ4F57QKXc2?alt=media&token=63099ca1-7168-4ad6-bebd-1f8f3b9fbd1b"
-        var second = UserModel()
-        second.userName = "byby"
-        second.profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/swiftchatting-d8801.appspot.com/o/userImages%2FlbSXF4jxFnNzdd1ydmQ4F57QKXc2?alt=media&token=63099ca1-7168-4ad6-bebd-1f8f3b9fbd1b"
-        self.array = [first, second]
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,7 +95,8 @@ extension PeopleViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let view = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController")
+        let view = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
+        view?.destinationUid = self.array[indexPath.row].uid
         navigationController?.pushViewController(view!, animated: true)
     }
     

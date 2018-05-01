@@ -12,10 +12,11 @@
 		2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFAB2097ED410091328B /* ViewController.swift */; };
 		2D2EBFB42097ED410091328B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */; };
 		2D2EBFBC2097ED940091328B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */; };
+		2D315C7020989F7800C53C43 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D315C6F20989F7800C53C43 /* ChatViewController.swift */; };
+		2D315C732098A0C200C53C43 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D315C722098A0C200C53C43 /* ChatModel.swift */; };
 		2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D409AAE2097F83400D8A070 /* LoginViewController.swift */; };
 		2D409AB32097F93700D8A070 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D409AB22097F93700D8A070 /* Main.storyboard */; };
 		2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */; };
-		2D9012CB20985AE300F8B6CF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9012CA20985AE300F8B6CF /* ChatViewController.swift */; };
 		2DB3634B2097EFA400380AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634A2097EFA400380AF9 /* Assets.xcassets */; };
 		2DB3634D2097F21600380AF9 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */; };
 		2DD9B877209832E80011A39E /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9B876209832E80011A39E /* UserModel.swift */; };
@@ -30,10 +31,11 @@
 		2D2EBFB32097ED410091328B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D2EBFB52097ED410091328B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2D315C6F20989F7800C53C43 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		2D315C722098A0C200C53C43 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		2D409AAE2097F83400D8A070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2D409AB22097F93700D8A070 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		2D9012CA20985AE300F8B6CF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2DB3634A2097EFA400380AF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		2DD9B876209832E80011A39E /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -79,17 +81,26 @@
 				2D2EBFAB2097ED410091328B /* ViewController.swift */,
 				2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */,
 				2D409AAE2097F83400D8A070 /* LoginViewController.swift */,
-				2D9012CA20985AE300F8B6CF /* ChatViewController.swift */,
 				2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */,
 				2D409AB22097F93700D8A070 /* Main.storyboard */,
+				2D315C6F20989F7800C53C43 /* ChatViewController.swift */,
 				2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */,
 				2D2EBFB52097ED410091328B /* Info.plist */,
-				2DD9B876209832E80011A39E /* UserModel.swift */,
+				2D315C712098A09400C53C43 /* Model */,
 				2D0C2DDD209821BC0039E6AB /* PeopleViewController.swift */,
 				2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */,
 				2DB3634A2097EFA400380AF9 /* Assets.xcassets */,
 			);
 			path = swiftChatting;
+			sourceTree = "<group>";
+		};
+		2D315C712098A09400C53C43 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2DD9B876209832E80011A39E /* UserModel.swift */,
+				2D315C722098A0C200C53C43 /* ChatModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		92D2C461873B4E565C537887 /* Pods */ = {
@@ -238,7 +249,8 @@
 				2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */,
 				2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */,
 				2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */,
-				2D9012CB20985AE300F8B6CF /* ChatViewController.swift in Sources */,
+				2D315C732098A0C200C53C43 /* ChatModel.swift in Sources */,
+				2D315C7020989F7800C53C43 /* ChatViewController.swift in Sources */,
 				2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */,
 				2DD9B877209832E80011A39E /* UserModel.swift in Sources */,
 				2D0C2DDE209821BC0039E6AB /* PeopleViewController.swift in Sources */,
@@ -379,6 +391,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5JVHC5M949;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -386,7 +399,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -397,6 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5JVHC5M949;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -404,7 +418,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

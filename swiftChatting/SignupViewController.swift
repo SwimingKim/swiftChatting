@@ -29,7 +29,7 @@ class SignupViewController: UIViewController {
                 let uid = user.uid
                 Storage.storage().reference().child("userImages").child(uid).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
                     let imageUrl = data?.downloadURL()?.absoluteString
-                    let values = ["userName": self.name.text!, "profileImageUrl": imageUrl]
+                    let values = ["userName": self.name.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
                     Database.database().reference().child("users").child(uid).setValue(values, withCompletionBlock: { (err, ref) in
                         if err == nil {
                             self.cancleEvent()
