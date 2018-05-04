@@ -6,6 +6,7 @@
 //  Copyright © 2018년 KimSuyoung. All rights reserved.
 //
 import UIKit
+import ObjectMapper
 //import ObjectMapper
 
 class ChatModel: NSObject {

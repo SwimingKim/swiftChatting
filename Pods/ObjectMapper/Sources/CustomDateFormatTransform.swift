@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  CustomDateFormatTransform.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Dan McCracken on 3/8/15.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+import Foundation
 
-
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+open class CustomDateFormatTransform: DateFormatterTransform {
+	
+    public init(formatString: String) {
+		let formatter = DateFormatter()
+		formatter.locale = Locale(identifier: "en_US_POSIX")
+		formatter.dateFormat = formatString
+		
+		super.init(dateFormatter: formatter)
+    }
+}

@@ -6,12 +6,13 @@ target 'swiftChatting' do
   use_frameworks!
 
   # Pods for swiftChatting
-pod 'SnapKit', '~> 4.0.0'
+pod 'SnapKit', '~> 3.2.0'
 pod 'Firebase/Core'
 pod 'Firebase/RemoteConfig'
 pod 'TextFieldEffects'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
+pod 'ObjectMapper', '~> 2.0'
 
 end

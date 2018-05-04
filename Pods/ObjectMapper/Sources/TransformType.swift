@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  TransformType.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Syo Ikeda on 2/4/15.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+public protocol TransformType {
+	associatedtype Object
+	associatedtype JSON
 
-
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+	func transformFromJSON(_ value: Any?) -> Object?
+	func transformToJSON(_ value: Object?) -> JSON?
+}

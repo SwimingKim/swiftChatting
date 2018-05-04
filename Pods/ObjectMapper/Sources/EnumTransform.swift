@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  EnumTransform.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Kaan Dedeoglu on 3/20/15.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,25 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+import Foundation
 
-
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+open class EnumTransform<T: RawRepresentable>: TransformType {
+	public typealias Object = T
+	public typealias JSON = T.RawValue
+	
+	public init() {}
+	
+	open func transformFromJSON(_ value: Any?) -> T? {
+		if let raw = value as? T.RawValue {
+			return T(rawValue: raw)
+		}
+		return nil
+	}
+	
+	open func transformToJSON(_ value: T?) -> T.RawValue? {
+		if let obj = value {
+			return obj.rawValue
+		}
+		return nil
+	}
+}

@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  TransformOf.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Syo Ikeda on 1/23/15.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,23 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+open class TransformOf<ObjectType, JSONType>: TransformType {
+	public typealias Object = ObjectType
+	public typealias JSON = JSONType
 
+	private let fromJSON: (JSONType?) -> ObjectType?
+	private let toJSON: (ObjectType?) -> JSONType?
 
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+	public init(fromJSON: @escaping(JSONType?) -> ObjectType?, toJSON: @escaping(ObjectType?) -> JSONType?) {
+		self.fromJSON = fromJSON
+		self.toJSON = toJSON
+	}
+
+	open func transformFromJSON(_ value: Any?) -> ObjectType? {
+		return fromJSON(value as? JSONType)
+	}
+
+	open func transformToJSON(_ value: ObjectType?) -> JSONType? {
+		return toJSON(value)
+	}
+}

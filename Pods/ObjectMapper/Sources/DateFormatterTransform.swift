@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  DateFormatterTransform.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Tristan Himmelman on 2015-03-09.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,29 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+import Foundation
 
-
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+open class DateFormatterTransform: TransformType {
+	public typealias Object = Date
+	public typealias JSON = String
+	
+	public let dateFormatter: DateFormatter
+	
+	public init(dateFormatter: DateFormatter) {
+		self.dateFormatter = dateFormatter
+	}
+	
+	open func transformFromJSON(_ value: Any?) -> Date? {
+		if let dateString = value as? String {
+			return dateFormatter.date(from: dateString)
+		}
+		return nil
+	}
+	
+	open func transformToJSON(_ value: Date?) -> String? {
+		if let date = value {
+			return dateFormatter.string(from: date)
+		}
+		return nil
+	}
+}

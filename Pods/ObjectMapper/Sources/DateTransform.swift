@@ -1,7 +1,12 @@
 //
-//  SnapKit
+//  DateTransform.swift
+//  ObjectMapper
 //
-//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
+//  Created by Tristan Himmelman on 2014-10-13.
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014-2016 Hearst
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +26,30 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS) || os(tvOS)
-    import UIKit
-#else
-    import AppKit
-#endif
+import Foundation
 
+open class DateTransform: TransformType {
+	public typealias Object = Date
+	public typealias JSON = Double
 
-#if os(iOS) || os(tvOS)
-    public typealias ConstraintInsets = UIEdgeInsets
-#else
-    public typealias ConstraintInsets = EdgeInsets
-#endif
+	public init() {}
+
+	open func transformFromJSON(_ value: Any?) -> Date? {
+		if let timeInt = value as? Double {
+			return Date(timeIntervalSince1970: TimeInterval(timeInt))
+		}
+		
+		if let timeStr = value as? String {
+			return Date(timeIntervalSince1970: TimeInterval(atof(timeStr)))
+		}
+		
+		return nil
+	}
+
+	open func transformToJSON(_ value: Date?) -> Double? {
+		if let date = value {
+			return Double(date.timeIntervalSince1970)
+		}
+		return nil
+	}
+}
