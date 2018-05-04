@@ -36,7 +36,6 @@ class ViewController: UIViewController {
         
         self.view.addSubview(box)
         box.snp.makeConstraints { (make) in
-            make.bottom.equalTo(self.view).offset(30)
             make.center.equalTo(self.view)
         }
         box.image = #imageLiteral(resourceName: "chat")
