@@ -38,7 +38,6 @@ class PeopleViewController: UIViewController {
 
                 userModel.setValuesForKeys(fchild.value as! [String : Any])
                 self.array.append(userModel)
-
             }
 
             DispatchQueue.main.async {

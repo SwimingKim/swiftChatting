@@ -45,7 +45,14 @@ class ChatViewController: UIViewController {
         
         Database.database().reference().child("chatrooms").queryOrdered(byChild: "users/"+uid!).queryEqual(toValue: true).observeSingleEvent(of: .value, with: { (datasnapshot) in
             for item in datasnapshot.children.allObjects as! [DataSnapshot] {
-                self.chatRoomUid = item.key
+                
+//                if let chatRoomdic = item.value as? [String: AnyObject] {
+//                    let chatModel = ChatModel(JSON: chatRoomdic)
+//                    if ChatModel.user[self.destinationUid] {
+//                        self.chatRoomdic = item.key
+//                    }
+//                }
+//                self.chatRoomUid = item.key
             }
         })
     }
