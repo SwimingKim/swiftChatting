@@ -16,7 +16,7 @@ class ChatModel: Mappable {
 
     }
     func mapping(map: Map) {
-        users <- map["user"]
+        users <- map["users"]
         comments <- map["comments"]
     }
     

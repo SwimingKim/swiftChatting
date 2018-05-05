@@ -23,6 +23,10 @@ class ChatViewController: UIViewController {
     public var destinationUid: String? // 나중에 내가 채팅할 대상 uid
     
     @objc func createRoom() {
+        if let length = textFieldMessage.text?.count, length == 0 {
+            return
+        }
+        
         let createRoomInfo: Dictionary<String, Any> = [
             "users" : [
                 uid!: true,
@@ -59,9 +63,8 @@ class ChatViewController: UIViewController {
         Database.database().reference().child("chatrooms").queryOrdered(byChild: "users/"+uid!).queryEqual(toValue: true).observeSingleEvent(of: .value, with: { (datasnapshot) in
             for item in datasnapshot.children.allObjects as! [DataSnapshot] {
                 if let chatRoomdic = item.value as? [String: AnyObject] {
-                    let chatModel = ChatModel(JSON: chatRoomdic)!
-                    dump(chatModel.users)
-                    if chatModel.users[self.destinationUid!] == true {
+                    let chatModel = ChatModel(JSON: chatRoomdic)
+                    if chatModel?.users[self.destinationUid!] == true {
                         self.chatRoomUid = item.key
                         self.sendButton.isEnabled = true
                         self.getDestinationInfo()
@@ -106,8 +109,12 @@ class ChatViewController: UIViewController {
         checkChatRoom()
         self.tabBarController?.tabBar.isHidden = true
         
+        let backView = UIView()
+        view.insertSubview(backView, at: 0)
+        view.addSubview(backView)
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(disimissKeyboard))
-        view.addGestureRecognizer(tap)
+        backView.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,19 +129,19 @@ class ChatViewController: UIViewController {
     
     func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.bottomConstraint.constant = keyboardSize.height
-            if self.comments.count > 0 {
-                self.tableView.scrollToRow(at: IndexPath(item: self.comments.count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-            }
+            self.bottomConstraint.constant = keyboardSize.height + 20
         }
         
         UIView.animate(withDuration: 0) {
             self.view.layoutIfNeeded()
+            if self.comments.count > 0 {
+                self.tableView.scrollToRow(at: IndexPath(item: self.comments.count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            }
         }
     }
     
     func keyboardWillHide(notification: Notification) {
-        self.bottomConstraint.constant = 0
+        self.bottomConstraint.constant = 20
         self.view.layoutIfNeeded()
     }
     
@@ -191,11 +198,12 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 
 class MyMessageCell: UITableViewCell {
     @IBOutlet weak var labelMessage: UILabel!
-    
+    @IBOutlet weak var labelTimestamp: UILabel!
 }
 
 class DestinationMessageCell: UITableViewCell {
     @IBOutlet weak var labelMessage: UILabel!
     @IBOutlet weak var imageViewProfile: UIImageView!
     @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var labelTimestamp: UILabel!
 }
