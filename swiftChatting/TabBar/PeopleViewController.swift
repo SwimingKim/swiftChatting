@@ -22,6 +22,7 @@ class PeopleViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(PeopleViewTableCell.self, forCellReuseIdentifier: "Cell")
+        tableView.rowHeight = 70
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(20)
@@ -94,10 +95,8 @@ extension PeopleViewController: UITableViewDataSource, UITableViewDelegate {
             make.right.equalTo(cell).offset(-20)
             make.centerY.equalTo(cell)
         }
-//        label_comment.text = "hioobjhkjashdjahsdkjha"
         if let comment = array[indexPath.row].comment {
-//            label_comment.text = comment
-            print(comment)
+            label_comment.text = comment
         }
         
         return cell
