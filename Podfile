@@ -9,10 +9,13 @@ target 'swiftChatting' do
 pod 'SnapKit', '~> 3.2.0'
 pod 'Firebase/Core'
 pod 'Firebase/RemoteConfig'
+pod 'Firebase/Messaging'
 pod 'TextFieldEffects'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'ObjectMapper', '~> 2.0'
+pod 'Alamofire', '~> 4.5'
+pod 'Kingfisher', '~> 3.0'
 
 end

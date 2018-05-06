@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import Alamofire
+import Kingfisher
 
 class ChatViewController: UIViewController {
     
@@ -18,7 +20,7 @@ class ChatViewController: UIViewController {
     var uid: String?
     var chatRoomUid: String?
     var comments: [ChatModel.Comment] = []
-    var userModel: UserModel?
+    var destinationUserModel: UserModel?
     
     public var destinationUid: String? // 나중에 내가 채팅할 대상 uid
     
@@ -33,7 +35,7 @@ class ChatViewController: UIViewController {
                 destinationUid!: true
             ]
         ]
-
+        
         
         if(chatRoomUid == nil){
             self.sendButton.isEnabled = false
@@ -47,16 +49,41 @@ class ChatViewController: UIViewController {
         }else{
             let value :Dictionary<String,Any> = [
                 
-                "uid" : uid!,
-                "message" : textFieldMessage.text!
+                "uid": uid!,
+                "message": textFieldMessage.text!,
+                "timestamp": ServerValue.timestamp()
             ]
             
             Database.database().reference().child("chatrooms").child(chatRoomUid!).child("comments").childByAutoId().setValue(value) { (err, ref) in
+                self.sendGcm()
                 self.textFieldMessage.text = ""
             }
         }
         
         
+    }
+    
+    func sendGcm() {
+        let url = "https://gcm-http.googleapis.com/gcm/send"
+        
+        let header : HTTPHeaders = [
+            "Content-Type": "application/json",
+            "Authorization": "key=??"
+        ]
+        
+        let userName = Auth.auth().currentUser?.displayName
+        
+        var notificationModel = NotificationModel()
+        notificationModel.to = destinationUserModel?.pushToken
+        notificationModel.notification.title = userName
+        notificationModel.notification.text = textFieldMessage.text
+        notificationModel.data.title = userName
+        notificationModel.data.text = textFieldMessage.text
+        
+        let params = notificationModel.toJSON()
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
+            print(response.result.value)
+        }
     }
     
     @objc func checkChatRoom() {
@@ -77,11 +104,11 @@ class ChatViewController: UIViewController {
     func getDestinationInfo() {
         
         Database.database().reference().child("users").child(self.destinationUid!).observeSingleEvent(of: .value, with: { (datasnapshot) in
-            self.userModel = UserModel()
-            self.userModel?.setValuesForKeys(datasnapshot.value as! [String: Any])
+            self.destinationUserModel = UserModel()
+            self.destinationUserModel?.setValuesForKeys(datasnapshot.value as! [String: Any])
             self.getMessageList()
         })
-    
+        
     }
     
     func getMessageList() {
@@ -129,7 +156,7 @@ class ChatViewController: UIViewController {
     
     func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.bottomConstraint.constant = keyboardSize.height + 20
+            self.bottomConstraint.constant = keyboardSize.height + 8
         }
         
         UIView.animate(withDuration: 0) {
@@ -141,7 +168,7 @@ class ChatViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: Notification) {
-        self.bottomConstraint.constant = 20
+        self.bottomConstraint.constant = 8
         self.view.layoutIfNeeded()
     }
     
@@ -161,29 +188,32 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
- 
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if self.comments[indexPath.row].uid == uid {
             let view = tableView.dequeueReusableCell(withIdentifier: "MyMessageCell", for: indexPath) as! MyMessageCell
             view.labelMessage.text = self.comments[indexPath.row].message
             view.labelMessage.numberOfLines = 0
+            if let time = self.comments[indexPath.row].timestamp {
+                view.labelTimestamp.text = time.toDayTime
+            }
             return view
         }
         else {
             let view = tableView.dequeueReusableCell(withIdentifier: "DestinationMessageCell", for: indexPath) as! DestinationMessageCell
-            view.labelName.text = userModel?.userName
+            view.labelName.text = destinationUserModel?.userName
             view.labelMessage.text = self.comments[indexPath.row].message
             view.labelMessage.numberOfLines = 0
             
-            let url = URL(string: (self.userModel?.profileImageUrl)!)
-            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, err) in
-                DispatchQueue.main.async {
-                    view.imageViewProfile.image = UIImage(data: data!)
-                    view.imageViewProfile.layer.cornerRadius = view.imageViewProfile.frame.width / 2
-                    view.imageViewProfile.clipsToBounds = true
-                }
-            }).resume()
+            let url = URL(string: (self.destinationUserModel?.profileImageUrl)!)
+            view.imageViewProfile.layer.cornerRadius = view.imageViewProfile.frame.width / 2
+            view.imageViewProfile.clipsToBounds = true
+            view.imageViewProfile.kf.setImage(with: url)
+
+            if let time = self.comments[indexPath.row].timestamp {
+                view.labelTimestamp.text = time.toDayTime
+            }
             return view
         }
         
@@ -193,8 +223,21 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-
+    
 }
+
+extension Int {
+    
+    var toDayTime: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
+        let date = Date(timeIntervalSince1970: Double(self)/1000)
+        return dateFormatter.string(from: date)
+    }
+    
+}
+
 
 class MyMessageCell: UITableViewCell {
     @IBOutlet weak var labelMessage: UILabel!
@@ -207,3 +250,5 @@ class DestinationMessageCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelTimestamp: UILabel!
 }
+
+

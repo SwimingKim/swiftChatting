@@ -70,27 +70,36 @@ extension PeopleViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PeopleViewTableCell
         
-        let imageView = cell.imageview!
-        imageView.snp.makeConstraints { (make) in
+        let imageview = cell.imageview!
+        imageview.snp.makeConstraints { (make) in
             make.centerY.equalTo(cell)
             make.left.equalTo(cell).offset(10)
             make.height.width.equalTo(50)
         }
         
-        URLSession.shared.dataTask(with: URL(string: array[indexPath.row].profileImageUrl!)!) { (data, response, err) in
-            DispatchQueue.main.async {
-                imageView.image = UIImage(data: data!)
-                imageView.layer.cornerRadius = imageView.frame.size.width / 2
-                imageView.clipsToBounds = true
-            }
-            }.resume()
+        let url = URL(string: array[indexPath.row].profileImageUrl!)
+        imageview.layer.cornerRadius = 50/2
+        imageview.clipsToBounds = true
+        imageview.kf.setImage(with: url)
         
         let label = cell.label!
         label.snp.makeConstraints { (make) in
             make.centerY.equalTo(cell)
-            make.left.equalTo(imageView.snp.right).offset(20)
+            make.left.equalTo(imageview.snp.right).offset(20)
         }
         label.text = array[indexPath.row].userName
+        
+        let label_comment = cell.label_comment!
+        label_comment.snp.makeConstraints { (make) in
+            make.right.equalTo(cell).offset(-20)
+            make.centerY.equalTo(cell)
+        }
+//        label_comment.text = "hioobjhkjashdjahsdkjha"
+        if let comment = array[indexPath.row].comment {
+//            label_comment.text = comment
+            print(comment)
+        }
+        
         return cell
     }
     
@@ -99,6 +108,8 @@ extension PeopleViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let view = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
         view?.destinationUid = self.array[indexPath.row].uid
         navigationController?.pushViewController(view!, animated: true)
@@ -110,11 +121,13 @@ class PeopleViewTableCell: UITableViewCell {
     
     var imageview: UIImageView! = UIImageView()
     var label: UILabel! = UILabel()
+    var label_comment: UILabel! = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier )
         self.addSubview(imageview)
         self.addSubview(label)
+        self.addSubview(label_comment)
     }
     
     required init?(coder aDecoder: NSCoder) {

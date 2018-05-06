@@ -24,19 +24,19 @@ class SignupViewController: UIViewController {
     
     @objc func signupEvent() {
         Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, err) in
+            let uid = user?.uid
             let image = UIImageJPEGRepresentation(self.imageView.image!, 0.1)
-            if let user = user {
-                let uid = user.uid
-                Storage.storage().reference().child("userImages").child(uid).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
-                    let imageUrl = data?.downloadURL()?.absoluteString
-                    let values = ["userName": self.name.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
-                    Database.database().reference().child("users").child(uid).setValue(values, withCompletionBlock: { (err, ref) in
-                        if err == nil {
-                            self.cancleEvent()
-                        }
-                    })
+            user?.createProfileChangeRequest().displayName = self.name.text
+            user?.createProfileChangeRequest().commitChanges(completion: nil)
+            Storage.storage().reference().child("userImages").child(uid!).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
+                let imageUrl = data?.downloadURL()?.absoluteString
+                let values = ["userName": self.name.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
+                Database.database().reference().child("users").child(uid!).setValue(values, withCompletionBlock: { (err, ref) in
+                    if err == nil {
+                        self.cancleEvent()
+                    }
                 })
-            }
+            })
         }
     }
     

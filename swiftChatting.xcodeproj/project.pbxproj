@@ -12,10 +12,12 @@
 		2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2EBFAB2097ED410091328B /* ViewController.swift */; };
 		2D2EBFB42097ED410091328B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFB22097ED410091328B /* LaunchScreen.storyboard */; };
 		2D2EBFBC2097ED940091328B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */; };
+		2D306F6A209E0BEA0008A920 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D306F69209E0BEA0008A920 /* NotificationModel.swift */; };
 		2D315C7020989F7800C53C43 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D315C6F20989F7800C53C43 /* ChatViewController.swift */; };
 		2D315C732098A0C200C53C43 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D315C722098A0C200C53C43 /* ChatModel.swift */; };
 		2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D409AAE2097F83400D8A070 /* LoginViewController.swift */; };
 		2D409AB32097F93700D8A070 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D409AB22097F93700D8A070 /* Main.storyboard */; };
+		2D538E76209E16D00007C332 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D538E75209E16D00007C332 /* AccountViewController.swift */; };
 		2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */; };
 		2DB3634B2097EFA400380AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634A2097EFA400380AF9 /* Assets.xcassets */; };
 		2DB3634D2097F21600380AF9 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */; };
@@ -32,10 +34,12 @@
 		2D2EBFB32097ED410091328B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D2EBFB52097ED410091328B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2EBFBB2097ED940091328B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2D306F69209E0BEA0008A920 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		2D315C6F20989F7800C53C43 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2D315C722098A0C200C53C43 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		2D409AAE2097F83400D8A070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2D409AB22097F93700D8A070 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		2D538E75209E16D00007C332 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2DB3634A2097EFA400380AF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 			children = (
 				2DD9B876209832E80011A39E /* UserModel.swift */,
 				2D315C722098A0C200C53C43 /* ChatModel.swift */,
+				2D306F69209E0BEA0008A920 /* NotificationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 			children = (
 				2D0C2DDD209821BC0039E6AB /* PeopleViewController.swift */,
 				2DF436B8209D3F6200B82622 /* ChatRoomsViewController.swift */,
+				2D538E75209E16D00007C332 /* AccountViewController.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -165,6 +171,11 @@
 				TargetAttributes = {
 					2D2EBFA52097ED410091328B = {
 						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -209,8 +220,10 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-swiftChatting/Pods-swiftChatting-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -220,8 +233,10 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -267,7 +282,9 @@
 				2D315C7020989F7800C53C43 /* ChatViewController.swift in Sources */,
 				2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */,
 				2DD9B877209832E80011A39E /* UserModel.swift in Sources */,
+				2D306F6A209E0BEA0008A920 /* NotificationModel.swift in Sources */,
 				2D0C2DDE209821BC0039E6AB /* PeopleViewController.swift in Sources */,
+				2D538E76209E16D00007C332 /* AccountViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
