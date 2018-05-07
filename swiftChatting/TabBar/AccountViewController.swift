@@ -144,7 +144,7 @@ extension AccountViewController: UITableViewDataSource {
             let df = DateFormatter()
             df.dateFormat = "M월 d일(E)"
             cell.signUpDateLabel.text = df.string(for: Date())
-            cell.commentLabel.text = "Hello, LINE"
+            cell.commentLabel.text = "Hello, iOS"
             
             return cell
         default:
