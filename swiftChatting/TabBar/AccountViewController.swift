@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AccountViewController: UIViewController {
+class AccountViewController: ViewController {
 
     @IBOutlet weak var conditionsCommentButton: UIButton!
     

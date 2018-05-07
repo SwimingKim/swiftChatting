@@ -9,17 +9,14 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: ViewController {
     
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signup: UIButton!
-    let remoteConfig = RemoteConfig.remoteConfig()
-    var color: String!
     
-    @objc func loginEvent() {
-        
+    @IBAction func loginEvent(_ sender: UIButton) {
         Auth.auth().signIn(withEmail: email.text!, password: password.text!) { (user, err) in
             if err != nil {
                 let alert = UIAlertController(title: "에러", message: err.debugDescription, preferredStyle: .alert)
@@ -28,10 +25,9 @@ class LoginViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        
     }
     
-    @objc func presentSignup() {
+    @IBAction func presentSignup(_ sender: UIButton) {
         let view = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
         self.present(view, animated: true, completion: nil)
     }
@@ -40,20 +36,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         try! Auth.auth().signOut()
-        let statusBar = UIView()
-        self.view.addSubview(statusBar)
-        statusBar.snp.makeConstraints { (make) in
-            make.right.top.left.equalTo(self.view)
-            make.height.equalTo(20)
-        }
-        
-        color = remoteConfig["splash_background"].stringValue
-        statusBar.backgroundColor = UIColor(hex: color)
-        loginButton.backgroundColor = UIColor(hex: color)
-        signup.backgroundColor = UIColor(hex: color)
-        
-        loginButton.addTarget(self, action: #selector(loginEvent), for: .touchUpInside)
-        signup.addTarget(self, action: #selector(presentSignup), for: .touchUpInside)
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
@@ -65,11 +47,6 @@ class LoginViewController: UIViewController {
                 Database.database().reference().child("users").child(uid!).updateChildValues(["pushToken": token!])
             }
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 }

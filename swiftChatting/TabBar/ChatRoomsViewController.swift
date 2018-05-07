@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatRoomsViewController: UIViewController {
+class ChatRoomsViewController: ViewController {
     
     @IBOutlet var tableView: UITableView!
     var uid: String!

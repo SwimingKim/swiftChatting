@@ -8,21 +8,20 @@
 
 import UIKit
 import Firebase
-import TextFieldEffects
 
-class SignupViewController: UIViewController {
+class SignupViewController: ViewController {
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var email: HoshiTextField!
-    @IBOutlet weak var name: HoshiTextField!
-    @IBOutlet weak var password: HoshiTextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var password: UITextField!
     @IBOutlet weak var signup: UIButton!
     @IBOutlet weak var cancel: UIButton!
     
     let remoteConfig = RemoteConfig.remoteConfig()
     var color: String!
     
-    @objc func signupEvent() {
+    @IBAction func signupEvent(_ sender: UIButton) {
         Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, err) in
             let uid = user?.uid
             let image = UIImageJPEGRepresentation(self.imageView.image!, 0.1)
@@ -33,14 +32,14 @@ class SignupViewController: UIViewController {
                 let values = ["userName": self.name.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
                 Database.database().reference().child("users").child(uid!).setValue(values, withCompletionBlock: { (err, ref) in
                     if err == nil {
-                        self.cancleEvent()
+                        self.cancleEvent(sender)
                     }
                 })
             })
         }
     }
     
-    @objc func cancleEvent() {
+    @IBAction func cancleEvent(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -57,19 +56,6 @@ class SignupViewController: UIViewController {
         imageView.isUserInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imagePicker))
         imageView.addGestureRecognizer(gestureRecognizer)
-        
-        color = remoteConfig["splash_background"].stringValue
-        statusBar.backgroundColor = UIColor(hex: color)
-        signup.backgroundColor = UIColor(hex: color)
-        cancel.backgroundColor = UIColor(hex: color)
-        
-        signup.addTarget(self, action: #selector(signupEvent), for: .touchUpInside)
-        cancel.addTarget(self, action: #selector(cancleEvent), for: .touchUpInside)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 }

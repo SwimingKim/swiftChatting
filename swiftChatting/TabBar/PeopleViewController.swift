@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Firebase
 
-class PeopleViewController: UIViewController {
+class PeopleViewController: ViewController {
     
     var array = [UserModel]()
     var tableView: UITableView!

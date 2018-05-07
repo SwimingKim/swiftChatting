@@ -11,7 +11,7 @@ import Firebase
 import Alamofire
 import Kingfisher
 
-class ChatViewController: UIViewController {
+class ChatViewController: ViewController {
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
