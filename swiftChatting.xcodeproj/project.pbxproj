@@ -19,6 +19,11 @@
 		2D409AB32097F93700D8A070 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D409AB22097F93700D8A070 /* Main.storyboard */; };
 		2D538E76209E16D00007C332 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D538E75209E16D00007C332 /* AccountViewController.swift */; };
 		2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */; };
+		2D7ACFB820A0E1CD00A4C198 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7ACFB720A0E1CD00A4C198 /* AccountTableViewCell.swift */; };
+		2D7ACFBB20A0E43E00A4C198 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7ACFBA20A0E43E00A4C198 /* CustomCell.swift */; };
+		2D7ACFBD20A0E46900A4C198 /* PeopleViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7ACFBC20A0E46900A4C198 /* PeopleViewTableCell.swift */; };
+		2D7ACFBF20A0E4AB00A4C198 /* MyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7ACFBE20A0E4AB00A4C198 /* MyMessageCell.swift */; };
+		2D7ACFC120A0E4C300A4C198 /* DestinationMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7ACFC020A0E4C300A4C198 /* DestinationMessageCell.swift */; };
 		2DB3634B2097EFA400380AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634A2097EFA400380AF9 /* Assets.xcassets */; };
 		2DB3634D2097F21600380AF9 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */; };
 		2DD9B877209832E80011A39E /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9B876209832E80011A39E /* UserModel.swift */; };
@@ -41,6 +46,11 @@
 		2D409AB22097F93700D8A070 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2D538E75209E16D00007C332 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		2D5E68C720980ECA00AE0E35 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		2D7ACFB720A0E1CD00A4C198 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
+		2D7ACFBA20A0E43E00A4C198 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		2D7ACFBC20A0E46900A4C198 /* PeopleViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewTableCell.swift; sourceTree = "<group>"; };
+		2D7ACFBE20A0E4AB00A4C198 /* MyMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageCell.swift; sourceTree = "<group>"; };
+		2D7ACFC020A0E4C300A4C198 /* DestinationMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationMessageCell.swift; sourceTree = "<group>"; };
 		2DB3634A2097EFA400380AF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		2DD9B876209832E80011A39E /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -83,6 +93,7 @@
 		2D2EBFA82097ED410091328B /* swiftChatting */ = {
 			isa = PBXGroup;
 			children = (
+				2D7ACFB920A0E40A00A4C198 /* Cell */,
 				2D2EBFA92097ED410091328B /* AppDelegate.swift */,
 				2D2EBFAB2097ED410091328B /* ViewController.swift */,
 				2DB3634C2097F21600380AF9 /* RemoteConfigDefaults.plist */,
@@ -108,6 +119,18 @@
 				2D306F69209E0BEA0008A920 /* NotificationModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2D7ACFB920A0E40A00A4C198 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2D7ACFB720A0E1CD00A4C198 /* AccountTableViewCell.swift */,
+				2D7ACFBE20A0E4AB00A4C198 /* MyMessageCell.swift */,
+				2D7ACFBA20A0E43E00A4C198 /* CustomCell.swift */,
+				2D7ACFBC20A0E46900A4C198 /* PeopleViewTableCell.swift */,
+				2D7ACFC020A0E4C300A4C198 /* DestinationMessageCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		2DF436B7209D3F3C00B82622 /* TabBar */ = {
@@ -273,15 +296,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D409AAF2097F83400D8A070 /* LoginViewController.swift in Sources */,
+				2D7ACFBB20A0E43E00A4C198 /* CustomCell.swift in Sources */,
 				2DF436B9209D3F6200B82622 /* ChatRoomsViewController.swift in Sources */,
+				2D7ACFBF20A0E4AB00A4C198 /* MyMessageCell.swift in Sources */,
 				2D2EBFAC2097ED410091328B /* ViewController.swift in Sources */,
+				2D7ACFBD20A0E46900A4C198 /* PeopleViewTableCell.swift in Sources */,
 				2D5E68C820980ECA00AE0E35 /* SignupViewController.swift in Sources */,
 				2D315C732098A0C200C53C43 /* ChatModel.swift in Sources */,
 				2D315C7020989F7800C53C43 /* ChatViewController.swift in Sources */,
 				2D2EBFAA2097ED410091328B /* AppDelegate.swift in Sources */,
 				2DD9B877209832E80011A39E /* UserModel.swift in Sources */,
 				2D306F6A209E0BEA0008A920 /* NotificationModel.swift in Sources */,
+				2D7ACFB820A0E1CD00A4C198 /* AccountTableViewCell.swift in Sources */,
 				2D0C2DDE209821BC0039E6AB /* PeopleViewController.swift in Sources */,
+				2D7ACFC120A0E4C300A4C198 /* DestinationMessageCell.swift in Sources */,
 				2D538E76209E16D00007C332 /* AccountViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,7 +450,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JVHC5M949;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -438,7 +469,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JVHC5M949;
 				INFOPLIST_FILE = swiftChatting/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.skim.swiftChatting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;

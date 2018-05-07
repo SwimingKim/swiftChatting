@@ -36,18 +36,14 @@ class ChatRoomsViewController: ViewController {
         super.viewDidLoad()
 
         self.uid = Auth.auth().currentUser?.uid
-//        self.getChatroomsList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        viewDidLoad()
+        super.viewDidAppear(animated)
+
         self.getChatroomsList()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
 }
 
@@ -95,13 +91,5 @@ extension ChatRoomsViewController: UITableViewDataSource, UITableViewDelegate {
         self.navigationController?.pushViewController(view, animated: true)
     }
 
-    
-}
-
-class CustomCell: UITableViewCell {
-    
-    @IBOutlet weak var labelTitle: UILabel!
-    @IBOutlet weak var labelLastmessage: UILabel!
-    @IBOutlet weak var imageview: UIImageView!
     
 }

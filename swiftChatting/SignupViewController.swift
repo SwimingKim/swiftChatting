@@ -11,25 +11,26 @@ import Firebase
 
 class SignupViewController: ViewController {
     
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var signup: UIButton!
-    @IBOutlet weak var cancel: UIButton!
-    
-    let remoteConfig = RemoteConfig.remoteConfig()
-    var color: String!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
+
+    var isFinishImage: Bool = false
+    var isFinishEmail: Bool = false
+    var isFinishName: Bool = false
+    var isFinishPassword: Bool = false
     
     @IBAction func signupEvent(_ sender: UIButton) {
-        Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, err) in
+        Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (user, err) in
             let uid = user?.uid
-            let image = UIImageJPEGRepresentation(self.imageView.image!, 0.1)
-            user?.createProfileChangeRequest().displayName = self.name.text
+            let image = UIImageJPEGRepresentation(self.profileImageView.image!, 0.1)
+            user?.createProfileChangeRequest().displayName = self.nameField.text
             user?.createProfileChangeRequest().commitChanges(completion: nil)
             Storage.storage().reference().child("userImages").child(uid!).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
                 let imageUrl = data?.downloadURL()?.absoluteString
-                let values = ["userName": self.name.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
+                let values = ["userName": self.nameField.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
                 Database.database().reference().child("users").child(uid!).setValue(values, withCompletionBlock: { (err, ref) in
                     if err == nil {
                         self.cancleEvent(sender)
@@ -46,6 +47,8 @@ class SignupViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        signUpButton.isEnabled = false
+        
         let statusBar = UIView()
         self.view.addSubview(statusBar)
         statusBar.snp.makeConstraints { (make) in
@@ -53,9 +56,9 @@ class SignupViewController: ViewController {
             make.height.equalTo(20)
         }
         
-        imageView.isUserInteractionEnabled = true
+        profileImageView.isUserInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imagePicker))
-        imageView.addGestureRecognizer(gestureRecognizer)
+        profileImageView.addGestureRecognizer(gestureRecognizer)
     }
     
 }
@@ -63,7 +66,7 @@ class SignupViewController: ViewController {
 extension SignupViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        imageView.image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        profileImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         dismiss(animated: true, completion: nil)
     }
     
@@ -73,7 +76,41 @@ extension SignupViewController: UINavigationControllerDelegate, UIImagePickerCon
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
         
-        self.present(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true) {
+            [weak self] in
+            self?.isFinishImage = true
+            
+            if let isFinishImage = self?.isFinishImage, let isFinishEmail = self?.isFinishEmail, let isFinishName = self?.isFinishName, let isFinishPassword = self?.isFinishPassword {
+                self?.signUpButton.isEnabled = isFinishImage && isFinishEmail && isFinishName && isFinishPassword
+            }
+        }
+    }
+    
+}
+
+extension SignupViewController: UITextFieldDelegate {
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        switch textField.tag {
+        case 100:
+            if let emailText = textField.text {
+                isFinishEmail = emailText.contains("@")
+            }
+        case 200:
+            if let nameText = textField.text {
+                isFinishName = nameText.count > 0
+            }
+        case 300:
+            if let passwordText = textField.text {
+                isFinishPassword = passwordText.count >= 6
+            }
+        default:
+            return
+        }
+        
+        signUpButton.isEnabled = isFinishImage && isFinishEmail && isFinishName && isFinishPassword
     }
     
 }

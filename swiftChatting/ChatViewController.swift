@@ -24,7 +24,7 @@ class ChatViewController: ViewController {
     
     public var destinationUid: String? // 나중에 내가 채팅할 대상 uid
     
-    @objc func createRoom() {
+    @IBAction func touchUpSending(_ sender: UIButton) {
         if let length = textFieldMessage.text?.count, length == 0 {
             return
         }
@@ -38,63 +38,34 @@ class ChatViewController: ViewController {
         
         
         if(chatRoomUid == nil){
-            self.sendButton.isEnabled = false
-            // 방 생성 코드
-            Database.database().reference().child("chatrooms").childByAutoId().setValue(createRoomInfo, withCompletionBlock: { (err, ref) in
+            sender.isEnabled = false
+            Database.database().reference().child("chatrooms").childByAutoId().setValue(createRoomInfo, withCompletionBlock: { [weak self] (err, ref) in
                 if(err == nil){
-                    self.checkChatRoom()
+                    self?.checkChatRoom()
                 }
             })
-            
         }else{
             let value :Dictionary<String,Any> = [
-                
                 "uid": uid!,
                 "message": textFieldMessage.text!,
                 "timestamp": ServerValue.timestamp()
             ]
-            
-            Database.database().reference().child("chatrooms").child(chatRoomUid!).child("comments").childByAutoId().setValue(value) { (err, ref) in
-                self.sendGcm()
-                self.textFieldMessage.text = ""
+            Database.database().reference().child("chatrooms").child(chatRoomUid!).child("comments").childByAutoId().setValue(value) { [weak self] (err, ref) in
+                self?.textFieldMessage.text = ""
             }
         }
         
         
     }
     
-    func sendGcm() {
-        let url = "https://gcm-http.googleapis.com/gcm/send"
-        
-        let header : HTTPHeaders = [
-            "Content-Type": "application/json",
-            "Authorization": "key=??"
-        ]
-        
-        let userName = Auth.auth().currentUser?.displayName
-        
-        var notificationModel = NotificationModel()
-        notificationModel.to = destinationUserModel?.pushToken
-        notificationModel.notification.title = userName
-        notificationModel.notification.text = textFieldMessage.text
-        notificationModel.data.title = userName
-        notificationModel.data.text = textFieldMessage.text
-        
-        let params = notificationModel.toJSON()
-        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
-            print(response.result.value)
-        }
-    }
-    
     @objc func checkChatRoom() {
-        Database.database().reference().child("chatrooms").queryOrdered(byChild: "users/"+uid!).queryEqual(toValue: true).observeSingleEvent(of: .value, with: { (datasnapshot) in
+        Database.database().reference().child("chatrooms").queryOrdered(byChild: "users/"+uid!).queryEqual(toValue: true).observeSingleEvent(of: .value, with: { [weak self] (datasnapshot) in
             for item in datasnapshot.children.allObjects as! [DataSnapshot] {
-                if let chatRoomdic = item.value as? [String: AnyObject] {
-                    let chatModel = ChatModel(JSON: chatRoomdic)
-                    if chatModel?.users[self.destinationUid!] == true {
-                        self.chatRoomUid = item.key
-                        self.sendButton.isEnabled = true
-                        self.getDestinationInfo()
+                if let chatRoomdic = item.value as? [String: AnyObject], let chatModel = ChatModel(JSON: chatRoomdic), let destinationUid = self?.destinationUid {
+                    if chatModel.users[destinationUid] == true {
+                        self?.chatRoomUid = item.key
+                        self?.sendButton.isEnabled = true
+                        self?.getDestinationInfo()
                     }
                 }
             }
@@ -102,83 +73,62 @@ class ChatViewController: ViewController {
     }
     
     func getDestinationInfo() {
-        
         Database.database().reference().child("users").child(self.destinationUid!).observeSingleEvent(of: .value, with: { (datasnapshot) in
             self.destinationUserModel = UserModel()
             self.destinationUserModel?.setValuesForKeys(datasnapshot.value as! [String: Any])
-            self.getMessageList()
+            Database.database().reference().child("chatrooms").child(self.chatRoomUid!).child("comments").observe(DataEventType.value, with: { [weak self] (datasnapshot) in
+                self?.comments.removeAll()
+                
+                for item in datasnapshot.children.allObjects as! [DataSnapshot]{
+                    let comment = ChatModel.Comment(JSON: item.value as! [String:AnyObject])
+                    self?.comments.append(comment!)
+                }
+                self?.tableView.reloadData()
+                
+                if let count = self?.comments.count, count > 0 {
+                    self?.tableView.scrollToRow(at: IndexPath(item: count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+                }
+                
+            })
         })
         
-    }
-    
-    func getMessageList() {
-        Database.database().reference().child("chatrooms").child(self.chatRoomUid!).child("comments").observe(DataEventType.value, with: { (datasnapshot) in
-            self.comments.removeAll()
-            
-            for item in datasnapshot.children.allObjects as! [DataSnapshot]{
-                let comment = ChatModel.Comment(JSON: item.value as! [String:AnyObject])
-                self.comments.append(comment!)
-            }
-            self.tableView.reloadData()
-            
-            if self.comments.count > 0 {
-                self.tableView.scrollToRow(at: IndexPath(item: self.comments.count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-            }
-            
-        })
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         uid = Auth.auth().currentUser?.uid
-        sendButton.addTarget(self, action: #selector(createRoom), for: .touchUpInside)
         checkChatRoom()
         self.tabBarController?.tabBar.isHidden = true
-        
-        let backView = UIView()
-        view.insertSubview(backView, at: 0)
-        view.addSubview(backView)
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(disimissKeyboard))
-        backView.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIKeyboardWillShow, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            if let value = noti.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                let frame = value.cgRectValue
+                self?.bottomConstraint.constant = frame.height + 8
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self?.view.layoutIfNeeded()
+                    if let count = self?.comments.count, count > 0 {
+                        self?.tableView.scrollToRow(at: IndexPath(item: count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+                    }
+                })
+            }
+        }
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIKeyboardWillHide, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            self?.bottomConstraint.constant = 8
+            self?.view.layoutIfNeeded()
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
         self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.bottomConstraint.constant = keyboardSize.height + 8
-        }
-        
-        UIView.animate(withDuration: 0) {
-            self.view.layoutIfNeeded()
-            if self.comments.count > 0 {
-                self.tableView.scrollToRow(at: IndexPath(item: self.comments.count-1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-            }
-        }
-    }
-    
-    func keyboardWillHide(notification: Notification) {
-        self.bottomConstraint.constant = 8
-        self.view.layoutIfNeeded()
-    }
-    
-    func disimissKeyboard() {
-        self.view.endEditing(true)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 }
@@ -210,7 +160,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
             view.imageViewProfile.layer.cornerRadius = view.imageViewProfile.frame.width / 2
             view.imageViewProfile.clipsToBounds = true
             view.imageViewProfile.kf.setImage(with: url)
-
+            
             if let time = self.comments[indexPath.row].timestamp {
                 view.labelTimestamp.text = time.toDayTime
             }
@@ -236,19 +186,6 @@ extension Int {
         return dateFormatter.string(from: date)
     }
     
-}
-
-
-class MyMessageCell: UITableViewCell {
-    @IBOutlet weak var labelMessage: UILabel!
-    @IBOutlet weak var labelTimestamp: UILabel!
-}
-
-class DestinationMessageCell: UITableViewCell {
-    @IBOutlet weak var labelMessage: UILabel!
-    @IBOutlet weak var imageViewProfile: UIImageView!
-    @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelTimestamp: UILabel!
 }
 
 

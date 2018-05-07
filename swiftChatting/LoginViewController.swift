@@ -11,13 +11,15 @@ import Firebase
 
 class LoginViewController: ViewController {
     
-    @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var signup: UIButton!
+    
+    var isFinishEmail: Bool = false
+    var isFinishPassword: Bool = false
     
     @IBAction func loginEvent(_ sender: UIButton) {
-        Auth.auth().signIn(withEmail: email.text!, password: password.text!) { (user, err) in
+        Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, err) in
             if err != nil {
                 let alert = UIAlertController(title: "에러", message: err.debugDescription, preferredStyle: .alert)
                 let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -35,7 +37,8 @@ class LoginViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        try! Auth.auth().signOut()
+//        try! Auth.auth().signOut()
+        loginButton.isEnabled = false
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
@@ -47,6 +50,28 @@ class LoginViewController: ViewController {
                 Database.database().reference().child("users").child(uid!).updateChildValues(["pushToken": token!])
             }
         }
+    }
+    
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        switch textField.tag {
+        case 100:
+            if let emailText = textField.text {
+                isFinishEmail = emailText.contains("@")
+            }
+        case 200:
+            if let passwordText = textField.text {
+                isFinishPassword = passwordText.count >= 6
+            }
+        default:
+            return
+        }
+
+        loginButton.isEnabled = isFinishEmail && isFinishPassword
     }
     
 }
