@@ -15,5 +15,6 @@ class UserModel: NSObject {
     var uid: String?
     var pushToken: String?
     var comment: String?
+    var signupDate: String?
 
 }

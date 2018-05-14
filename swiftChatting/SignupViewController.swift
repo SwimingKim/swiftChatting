@@ -29,8 +29,13 @@ class SignupViewController: ViewController {
             user?.createProfileChangeRequest().displayName = self.nameField.text
             user?.createProfileChangeRequest().commitChanges(completion: nil)
             Storage.storage().reference().child("userImages").child(uid!).putData(image!, metadata: nil, completion: { [unowned self] (data, error) in
+                
                 let imageUrl = data?.downloadURL()?.absoluteString
-                let values = ["userName": self.nameField.text!, "profileImageUrl": imageUrl,"uid":Auth.auth().currentUser?.uid ]
+                let df = DateFormatter()
+                df.dateFormat = "M월 d일(E)"
+                let date = df.string(for: Date())
+
+                let values = ["userName": self.nameField.text!, "profileImageUrl": imageUrl, "uid":Auth.auth().currentUser?.uid, "signupDate": date ]
                 Database.database().reference().child("users").child(uid!).setValue(values, withCompletionBlock: { (err, ref) in
                     if err == nil {
                         self.cancleEvent(sender)

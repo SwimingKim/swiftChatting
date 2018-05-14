@@ -26,17 +26,17 @@ class AccountViewController: ViewController {
         return barStyle
     }
     
-    
     @IBAction func showAlert(_ sender: UIButton) {
         let alertController = UIAlertController(title: "상태 메세지", message: nil, preferredStyle: .alert)
         alertController.addTextField { (textfield) in
             textfield.placeholder = "상태메세지를 입력해주세요"
         }
-        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { [unowned self] (action) in
             if let textfield = alertController.textFields?.first {
                 let dic = [ "comment": textfield.text ]
                 let uid = Auth.auth().currentUser?.uid
                 Database.database().reference().child("users").child(uid!).updateChildValues(dic)
+                self.listTableView.reloadData()
             }
         }))
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { (aciton) in
@@ -138,13 +138,20 @@ extension AccountViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-            cell.emailLabel.text = "rumex13@naver.com"
-            cell.nameLabel.text = "네이버"
             
-            let df = DateFormatter()
-            df.dateFormat = "M월 d일(E)"
-            cell.signUpDateLabel.text = df.string(for: Date())
-            cell.commentLabel.text = "Hello, iOS"
+            if let curentUser = Auth.auth().currentUser, let uid = String(curentUser.uid) {
+                Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (datasnapshot) in
+                    
+                    let userModel = UserModel()
+                    userModel.setValuesForKeys(datasnapshot.value as! [String: AnyObject])
+                    
+                    cell.nameLabel.text = userModel.userName
+                    cell.emailLabel.text = curentUser.email
+                    cell.signUpDateLabel.text = userModel.signupDate
+                    cell.commentLabel.text = userModel.comment
+                    
+                })
+            }
             
             return cell
         default:
